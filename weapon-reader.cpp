@@ -229,10 +229,10 @@ int main(int argc, char * argv[]){
 	    }	
 	}
 	if(!foundBO2Version && !ignoreVar){
-	   cout << "Did not find BO2 version of " << varName << endl;
+	   cout << "Did not find original version of " << varName << endl;
 	}
 	if(ignoreVar){
-	   cout << "Ignoring BO2 version of " << varName << endl;
+	   cout << "Ignoring original version of " << varName << endl;
 	} 
      }
 
