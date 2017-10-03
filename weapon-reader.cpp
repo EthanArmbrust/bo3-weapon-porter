@@ -58,9 +58,11 @@ int main(int argc, char * argv[]){
 	cout << "Unable to read ignore list" << endl;
 	return 0;
     }
-   
+  
+ 
 
-  }  
+  } 
+
 
   ifstream weaponFile(filename, ios::in|ios::binary|ios::ate); 
   size = weaponFile.tellg();
@@ -93,6 +95,7 @@ int main(int argc, char * argv[]){
   outFile.write(newContents,size);
   outFile.write("\n", 1);
   outFile.close();
+
 
   string bo2VariableRaw[slashCount + 2];
   string bo2VariableNames[(slashCount + 1) / 2];
@@ -175,6 +178,7 @@ int main(int argc, char * argv[]){
 	}
   }
 
+
 	/*for(int g = 0; g < gdtArray[3537].length(); g++){
 		cout << (int) gdtArray[3537].at(g) << endl;
 	}
@@ -190,6 +194,11 @@ int main(int argc, char * argv[]){
 	*/
   string newArray[gdtLines] = gdtArray;
   if(!foundLine){
+	//cout << "about to print line " << endl;
+	//cout << "gdt lines " << gdtLines << endl;
+	//cout << "line 2248 is " << gdtArray[2248] << endl;
+	//cout << "after print line" << endl;
+	cout << "expected is " << gdtWeaponLine << endl;
 	cout << "could not find weapon" << endl;
   }
 
@@ -216,11 +225,38 @@ int main(int argc, char * argv[]){
 		ignoreVar = true;
 	      }
  	   }
-
+	
 	bool foundBO2Version = false;
 	for(int v = 0; v < (slashCount + 1) / 2; v++){
+	    //Black Ops 3 sometimes replaces Forward, Right, Up, Roll, Pitch, and Yaw 
+	    //with F,R,U,R,P,Y
+	    string altVarName = "";
 
-	    if(varName == bo2VariableNames[v] && !ignoreVar){
+	    if(varName[varName.length() - 1] == 'F'){
+		altVarName = varName + "orward";
+	    }
+	
+	    if(varName[varName.length() - 1] == 'U'){
+		altVarName = varName + "p";
+	    }
+
+	    if(varName[varName.length() - 1] == 'P'){
+		altVarName = varName + "itch";
+	    }
+
+	    if(varName[varName.length() - 1] == 'Y'){
+		altVarName = varName + "aw";
+	    }
+
+	    if(varName.substr(varName.length() - 4, 4) == "RotR"){
+		altVarName = varName + "oll";
+	    }
+	    else if(varName[varName.length() -1] == 'R'){
+		altVarName = varName + "ight";
+	    }
+
+
+	    if((varName == bo2VariableNames[v] || altVarName == bo2VariableNames[v])&& !ignoreVar){
 		//cout << "found bo2 version of: " << varName << endl;
 		foundBO2Version = true;
 		newArray[gdtIndex] = gdtArray[gdtIndex].substr(0, endVarName) + "\" \"" + bo2VariableValues[v] + "\"\r";	
