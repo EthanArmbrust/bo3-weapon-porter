@@ -1,3 +1,5 @@
-damage
 Sound
-Anim
+camo
+Icon
+offhandSlot
+Effect

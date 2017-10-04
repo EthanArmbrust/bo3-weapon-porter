@@ -45,7 +45,7 @@ int main(int argc, char * argv[]){
 
         int y = 0;
 
-        cout << "temp: " << tempIgnore << endl;
+        //cout << "temp: " << tempIgnore << endl;
 
         while((y < ignoreLineCount) && getline(ignores,ignoreStringArray[y])){
 	   y++;
@@ -66,6 +66,11 @@ int main(int argc, char * argv[]){
 
   ifstream weaponFile(filename, ios::in|ios::binary|ios::ate); 
   size = weaponFile.tellg();
+
+  if(!(weaponFile.is_open())){
+	cout << "Unable to open weapon file" << endl;
+	return 0;
+  }
   
   fileContents = new char[size];
   
@@ -138,6 +143,12 @@ int main(int argc, char * argv[]){
 
   //cout << "making gdt file reader" << endl; 
   ifstream gdtFile(gdtFilename);
+
+  if(!(gdtFile.is_open())){
+	cout << "unable to open gdt file" << endl;
+	return 0;
+  }
+
   string unused = "";
 
   while(getline(gdtFile, unused)){
@@ -166,6 +177,11 @@ int main(int argc, char * argv[]){
 
   string gdtWeaponLine = "\t\"" + weaponName + "\" ( \"bulletweapon.gdf\" )" + (char) 13;
   string gdtEndLine = "\t}\r";
+  #ifdef WIN32
+  cout << "running win code" << endl;
+  gdtWeaponLine = "\t\"" + weaponName + "\" ( \"bulletweapon.gdf\" )";
+  gdtEndLine = "\t}";
+  #endif
 
   for(int n = 0; n < gdtLines; n++){
 	if(gdtArray[n] == gdtWeaponLine){
@@ -179,27 +195,16 @@ int main(int argc, char * argv[]){
   }
 
 
-	/*for(int g = 0; g < gdtArray[3537].length(); g++){
-		cout << (int) gdtArray[3537].at(g) << endl;
-	}
-
-	cout << "end line =" << gdtEndLine << endl;
-	
-	for(int g = 0; g < gdtEndLine.length(); g++){
-		cout << (int) gdtEndLine.at(g) << endl;
-	}
-
-	cout << "final char" << (int) gdtArray[3537].at(gdtArray[3537].length() - 1) << endl; 
-	cout << "weaponSectionEnd: " << weaponSectionEnd << endl;
-	*/
   string newArray[gdtLines] = gdtArray;
   if(!foundLine){
 	//cout << "about to print line " << endl;
 	//cout << "gdt lines " << gdtLines << endl;
-	//cout << "line 2248 is " << gdtArray[2248] << endl;
+	cout << "line 2248 is " << gdtArray[2248] << endl;
+	cout << "last char is " << (int) gdtArray[2248].at(gdtArray[2248].length() - 1) << endl;
 	//cout << "after print line" << endl;
-	cout << "expected is " << gdtWeaponLine << endl;
 	cout << "could not find weapon" << endl;
+	cout << "expected  is " << gdtWeaponLine << endl;
+	cout << "last char is " << (int) gdtWeaponLine.at(gdtWeaponLine.length() - 1) << endl;
   }
 
 
