@@ -177,7 +177,7 @@ int main(int argc, char * argv[]){
 
   string gdtWeaponLine = "\t\"" + weaponName + "\" ( \"bulletweapon.gdf\" )" + (char) 13;
   string gdtEndLine = "\t}\r";
-  #ifdef WIN32
+  #ifdef _WIN32
   cout << "running win code" << endl;
   gdtWeaponLine = "\t\"" + weaponName + "\" ( \"bulletweapon.gdf\" )";
   gdtEndLine = "\t}";
@@ -199,8 +199,8 @@ int main(int argc, char * argv[]){
   if(!foundLine){
 	//cout << "about to print line " << endl;
 	//cout << "gdt lines " << gdtLines << endl;
-	cout << "line 2248 is " << gdtArray[2248] << endl;
-	cout << "last char is " << (int) gdtArray[2248].at(gdtArray[2248].length() - 1) << endl;
+	cout << "line 8396 is " << gdtArray[8396] << endl;
+	cout << "last char is " << (int) gdtArray[8396].at(gdtArray[8396].length() - 1) << endl;
 	//cout << "after print line" << endl;
 	cout << "could not find weapon" << endl;
 	cout << "expected  is " << gdtWeaponLine << endl;
